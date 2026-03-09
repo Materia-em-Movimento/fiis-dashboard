@@ -269,13 +269,39 @@ if st.button("🔄 Atualizar valores"):
     # EXIBIÇÃO DA TABELA NO APP
     # ==================================
 
-    st.dataframe(
-        df,
-        use_container_width=True,  # ocupa toda largura
-        hide_index=True,           # remove coluna de índice
-        height=525                 # altura da tabela
+    df = df.sort_values(by="ROI", ascending=False, na_position="last").reset_index(drop=True)
+
+
+    def zebra_linhas(row):
+        if row.name % 2 == 0:
+            return ['background-color: #152442'] * len(row)
+        else:
+            return [''] * len(row)
+
+
+    df_estilado = (
+        df.style
+        .apply(zebra_linhas, axis=1)
+        
+        #era pra configurar cabeçalho, mas não está funcionando
+        .set_table_styles([
+            {
+                "selector": "th",
+                "props": [
+                    ("background-color", "black"),
+                    ("color", "white"),
+                    ("font-weight", "bold")
+                ]
+            }
+        ])
     )
 
+    st.dataframe(
+        df_estilado,
+        use_container_width=True,
+        hide_index=True,
+        height=525
+    )
 
 # mensagem padrão antes da atualização
 else:
