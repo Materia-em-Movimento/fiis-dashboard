@@ -253,7 +253,7 @@ if st.button("🔄 Atualizar valores"):
 
     def zebra_linhas(row):
         if row.name % 2 == 0:
-            return ['background-color: #2f5093'] * len(row)
+            return ['background-color: #152442'] * len(row)
         else:
             return [''] * len(row)
 
@@ -290,5 +290,6 @@ if st.button("🔄 Atualizar valores"):
 # mensagem padrão antes da atualização
 else:
     st.info("Clique no botão para atualizar preços e dividendos.")
+
 
 
