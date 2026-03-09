@@ -244,27 +244,6 @@ if st.button("🔄 Atualizar valores"):
     # ordena pelo maior ROI
     df = df.sort_values(by="ROI", ascending=False, na_position="last")
 
-
-    # ==================================
-    # FORMATAÇÃO VISUAL DOS DADOS
-    # ==================================
-
-    # formata preço como moeda brasileira
-    df["PREÇO"] = df["PREÇO"].apply(
-        lambda x: f"R$ {x:,.2f}".replace(".", "X").replace(",", ".").replace("X", ",") if pd.notnull(x) else "—"
-    )
-
-    # formata dividendos
-    df["DIV"] = df["DIV"].apply(
-        lambda x: f"{x:.3f}" if pd.notnull(x) else "—"
-    )
-
-    # formata ROI como porcentagem
-    df["ROI"] = df["ROI"].apply(
-        lambda x: f"{x:.2f}%" if pd.notnull(x) else "—"
-    )
-
-
     # ==================================
     # EXIBIÇÃO DA TABELA NO APP
     # ==================================
@@ -282,7 +261,12 @@ if st.button("🔄 Atualizar valores"):
     df_estilado = (
         df.style
         .apply(zebra_linhas, axis=1)
-        
+        #transforma em valor numérico
+        .format({
+            "PREÇO": "R$ {:.2f}",
+            "DIV": "{:.3f}",
+            "ROI": "{:.2f}%"
+        })
         #era pra configurar cabeçalho, mas não está funcionando
         .set_table_styles([
             {
